@@ -1,0 +1,14 @@
+{
+  "name": "clearcut",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ClearCut — AI Background Remover",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "form-data": "^4.0.0",
+    "formidable": "^3.5.1"
+  }
+}
