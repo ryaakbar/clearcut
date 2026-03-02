@@ -1,0 +1,12 @@
+{
+  "name": "ClearCut — AI Background Remover",
+  "short_name": "ClearCut",
+  "description": "Remove image backgrounds instantly with AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#030712",
+  "icons": [
+    { "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L2 7L12 12L22 7L12 2Z' fill='%233b82f6'/%3E%3C/svg%3E", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

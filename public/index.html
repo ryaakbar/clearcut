@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearCut — AI Background Remover</title>
+    <meta name="description" content="Remove image backgrounds instantly with AI. Free, fast, no signup required.">
+    <meta name="theme-color" content="#030712">
+    <link rel="manifest" href="manifest.json">
+    <meta property="og:title" content="ClearCut — AI Background Remover">
+    <meta property="og:description" content="Remove image backgrounds instantly with AI. Free, fast, no signup.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- BG FX -->
+    <div class="noise"></div>
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+    <div class="glow g3"></div>
+    <div class="grid-lines"></div>
+
+    <!-- MARQUEE -->
+    <div class="marquee-bar">
+        <div class="marquee-track">
+            CLEARCUT <span class="mx">✦</span> AI BACKGROUND REMOVER <span class="mx">✦</span> INSTANT RESULTS <span class="mx">✦</span> FREE TO USE <span class="mx">✦</span> NO SIGNUP <span class="mx">✦</span> BATCH UPLOAD <span class="mx">✦</span> PNG · JPG · WEBP <span class="mx">✦</span> CLEARCUT <span class="mx">✦</span> AI BACKGROUND REMOVER <span class="mx">✦</span> INSTANT RESULTS <span class="mx">✦</span> FREE TO USE <span class="mx">✦</span> NO SIGNUP <span class="mx">✦</span> BATCH UPLOAD <span class="mx">✦</span>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="brand-mark">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" opacity=".9"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" opacity=".6"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" opacity=".3"/>
+                </svg>
+            </div>
+            <span class="brand-name">Clear<span>Cut</span></span>
+        </div>
+        <div class="nav-center">
+            <div class="nav-pill">
+                <span class="nav-dot"></span>
+                AI-Powered
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="status-badge">
+                <div class="pulse-dot"></div>
+                <span>ONLINE</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-eyebrow reveal">
+            <span class="eyebrow-chip">✦ No signup · No watermark · Instant</span>
+        </div>
+        <h1 class="hero-title reveal delay-1">
+            Remove Any<br>
+            <span class="title-accent">Background.</span>
+        </h1>
+        <p class="hero-sub reveal delay-2">
+            Upload up to 5 images. Get clean PNGs in seconds.<br>
+            Powered by AI — completely free.
+        </p>
+        <div class="hero-stats reveal delay-3">
+            <div class="stat"><span class="stat-n">5</span><span class="stat-l">Max images</span></div>
+            <div class="stat-div"></div>
+            <div class="stat"><span class="stat-n">10MB</span><span class="stat-l">Per file</span></div>
+            <div class="stat-div"></div>
+            <div class="stat"><span class="stat-n">PNG</span><span class="stat-l">Output</span></div>
+        </div>
+    </header>
+
+    <!-- MAIN TOOL -->
+    <main class="tool-section">
+
+        <!-- UPLOAD ZONE -->
+        <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" accept="image/*" multiple hidden>
+
+            <div class="upload-inner" id="uploadInner">
+                <div class="upload-icon-wrap">
+                    <div class="upload-icon-ring"></div>
+                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                </div>
+                <div class="upload-text">
+                    <p class="upload-headline">Drop images here</p>
+                    <p class="upload-sub">or <button class="upload-link" onclick="document.getElementById('fileInput').click()">browse files</button> · paste from clipboard</p>
+                </div>
+                <div class="upload-formats">
+                    <span class="fmt-badge">JPG</span>
+                    <span class="fmt-badge">PNG</span>
+                    <span class="fmt-badge">WEBP</span>
+                    <span class="fmt-badge">GIF</span>
+                    <span class="fmt-badge-sep">up to 10MB each · max 5 files</span>
+                </div>
+            </div>
+
+            <!-- DRAG OVERLAY -->
+            <div class="drag-overlay hidden" id="dragOverlay">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span>Drop to upload</span>
+            </div>
+        </div>
+
+        <!-- BATCH QUEUE -->
+        <div class="batch-queue hidden" id="batchQueue">
+            <div class="batch-header">
+                <div class="batch-title">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span id="batchCount">0 images ready</span>
+                </div>
+                <div class="batch-actions">
+                    <button class="btn-ghost" onclick="addMoreFiles()">
+                        <i class="fa-solid fa-plus"></i> Add More
+                    </button>
+                    <button class="btn-ghost danger" onclick="clearAll()">
+                        <i class="fa-solid fa-trash"></i> Clear All
+                    </button>
+                </div>
+            </div>
+
+            <!-- QUEUE ITEMS -->
+            <div class="queue-list" id="queueList"></div>
+
+            <!-- PROCESS BUTTON -->
+            <div class="process-row">
+                <div class="process-info" id="processInfo">Ready to process</div>
+                <button class="btn-process" id="processBtn" onclick="processAll()">
+                    <span class="btn-process-inner">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        Remove Backgrounds
+                    </span>
+                    <div class="btn-shimmer"></div>
+                </button>
+            </div>
+        </div>
+
+        <!-- RESULTS SECTION -->
+        <div class="results-section hidden" id="resultsSection">
+            <div class="results-header">
+                <div class="results-title">
+                    <i class="fa-solid fa-check-circle" style="color:var(--green)"></i>
+                    <span id="resultsCount">Results</span>
+                </div>
+                <div class="results-actions">
+                    <button class="btn-ghost" onclick="downloadAll()">
+                        <i class="fa-solid fa-download"></i> Download All
+                    </button>
+                    <button class="btn-ghost" onclick="resetTool()">
+                        <i class="fa-solid fa-rotate-left"></i> Start Over
+                    </button>
+                </div>
+            </div>
+
+            <!-- RESULT CARDS -->
+            <div class="results-grid" id="resultsGrid"></div>
+
+            <!-- ERRORS -->
+            <div class="errors-block hidden" id="errorsBlock">
+                <div class="errors-title"><i class="fa-solid fa-triangle-exclamation"></i> Some images failed</div>
+                <div id="errorsList"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-section reveal">
+        <div class="how-label">How it works</div>
+        <div class="how-steps">
+            <div class="how-step">
+                <div class="step-num">01</div>
+                <div class="step-icon"><i class="fa-solid fa-images"></i></div>
+                <div class="step-text">
+                    <strong>Upload</strong>
+                    <span>Drop up to 5 images or paste from clipboard</span>
+                </div>
+            </div>
+            <div class="how-line"></div>
+            <div class="how-step">
+                <div class="step-num">02</div>
+                <div class="step-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <div class="step-text">
+                    <strong>AI Processes</strong>
+                    <span>Our AI detects and removes the background</span>
+                </div>
+            </div>
+            <div class="how-line"></div>
+            <div class="how-step">
+                <div class="step-num">03</div>
+                <div class="step-icon"><i class="fa-solid fa-download"></i></div>
+                <div class="step-text">
+                    <strong>Download</strong>
+                    <span>Save as PNG, JPG, or WebP — all formats free</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-brand">
+            <div class="brand-mark small">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" opacity=".5"/>
+                </svg>
+            </div>
+            <span>ClearCut</span>
+        </div>
+        <div class="footer-note">Free · No signup · No watermarks · 100% AI</div>
+    </footer>
+
+    <!-- COMPARISON MODAL -->
+    <div class="modal-overlay hidden" id="modalOverlay" onclick="closeModal()"></div>
+    <div class="compare-modal hidden" id="compareModal">
+        <div class="modal-header">
+            <div class="modal-title" id="modalTitle">Before / After</div>
+            <div class="modal-toolbar">
+                <!-- Download format selector -->
+                <div class="dl-group">
+                    <button class="dl-btn active" data-fmt="png" onclick="setDownloadFmt('png')">PNG</button>
+                    <button class="dl-btn" data-fmt="jpg" onclick="setDownloadFmt('jpg')">JPG</button>
+                    <button class="dl-btn" data-fmt="webp" onclick="setDownloadFmt('webp')">WebP</button>
+                </div>
+                <button class="btn-download-modal" id="downloadModalBtn" onclick="downloadModal()">
+                    <i class="fa-solid fa-download"></i> Download
+                </button>
+                <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+
+        <!-- SLIDER COMPARISON -->
+        <div class="slider-wrap" id="sliderWrap">
+            <div class="slider-before" id="sliderBefore">
+                <img id="sliderBeforeImg" src="" alt="Original">
+                <div class="slider-label left">Original</div>
+            </div>
+            <div class="slider-after" id="sliderAfter">
+                <img id="sliderAfterImg" src="" alt="Removed BG">
+                <div class="slider-label right">No Background</div>
+            </div>
+            <div class="slider-handle" id="sliderHandle">
+                <div class="handle-bar"></div>
+                <div class="handle-knob">
+                    <i class="fa-solid fa-arrows-left-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- BG PREVIEW OPTIONS -->
+        <div class="bg-preview-bar">
+            <span class="bg-label">Preview on:</span>
+            <button class="bg-opt active" data-bg="checker" onclick="setPreviewBg('checker')">
+                <div class="checker-mini"></div>
+            </button>
+            <button class="bg-opt" data-bg="white" onclick="setPreviewBg('white')" style="background:#fff;border:1px solid rgba(255,255,255,.2)"></button>
+            <button class="bg-opt" data-bg="black" onclick="setPreviewBg('black')" style="background:#000"></button>
+            <button class="bg-opt" data-bg="#1a1a2e" onclick="setPreviewBg('#1a1a2e')" style="background:#1a1a2e"></button>
+            <button class="bg-opt" data-bg="#e8f4fd" onclick="setPreviewBg('#e8f4fd')" style="background:#e8f4fd"></button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast hidden" id="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
